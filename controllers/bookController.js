@@ -34,7 +34,12 @@ exports.index = asyncHandler(async (req, res, next) => {
 
 // 显示所有的图书
 exports.book_list = asyncHandler(async (req, res, next) => {
-  res.send("未实现：图书列表");
+  const allBooks = await Book.find({},"title author")
+  .sort({title:1})
+  .populate("author")
+  .exec()
+
+  res.render("book_list",{title:"Book List",book_list:allBooks})
 });
 
 // 显示特定图书的详情页面。
