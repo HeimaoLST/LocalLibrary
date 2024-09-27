@@ -1,0 +1,16 @@
+extends layout 
+
+block content 
+
+    h1= title 
+
+    if allAuthor.length 
+        ul 
+            each val in allAuthor 
+                li 
+                    a(href=val.url) #{val.name} 
+                    | (#{val.dateOfBirth}-#{val.dateOfDeath})
+
+
+    else 
+        p There are no authors                

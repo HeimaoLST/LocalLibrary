@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const { DateTime } = require('luxon')
 const Schema = mongoose.Schema;
 
 const AuthorSchema = new Schema({
@@ -20,6 +20,18 @@ AuthorSchema.virtual("lifespan").get(function () {
     this.date_of_death.getYear() - this.date_of_birth.getYear()
   ).toString();
 });
+AuthorSchema.virtual("dateOfBirth").get( function() {
+  let res = DateTime.fromJSDate(this.date_of_birth).toLocaleString(DateTime.DATETIME_MED)
+  
+  return this.date_of_birth ? res :  "???"
+})
+
+AuthorSchema.virtual("dateOfDeath").get( function() {
+  let res = DateTime.fromJSDate(this.date_of_death).toLocaleString(DateTime.DATETIME_MED)
+  
+  return this.date_of_death ? res :  "???"
+})
+
 
 // 虚拟属性'url'：作者 URL
 AuthorSchema.virtual("url").get(function () {

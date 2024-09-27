@@ -3,9 +3,16 @@ const Author = require("../models/author");
 const asyncHandler = require("express-async-handler");
 
 // 显示完整的作者列表
-exports.author_list = (req, res) => {
-  res.send("未实现：作者列表");
-};
+exports.author_list = asyncHandler(async (req, res) =>  {
+
+  authorList = await Author.find().sort([["family name",'ascending']]).exec()
+
+  res.render('author_list',{
+    title: "Author List",
+    allAuthor:authorList
+  })
+  
+});
 
 // 为每位作者显示详细信息的页面
 exports.author_detail = asyncHandler(async (req, res, next) => {
