@@ -5,7 +5,12 @@ const asyncHandler = require('express-async-handler')
 //显示所有的BookInstances
 
 exports.bookinstance_list = asyncHandler(async(req,res,next) =>{
-    res.send("仍未实现 BookInstance列表")
+    const allBookInstances = await BookInstance.find().populate('book').exec()
+
+    res.render('bookinstance_list',{
+      title: "Book Instances List",
+      bookinstance_list: allBookInstances,
+    })
 })
 
 // 显示特定 BookInstance 的详情页
