@@ -3,7 +3,12 @@ const asyncHandler = require("express-async-handler");
 
 // 显示所有的流派。
 exports.genre_list = asyncHandler(async (req, res, next) => {
-  res.send("未实现：流派列表");
+  const allgenre = await genre.find().sort({name:1}).exec()
+
+  res.render('genre_list',{
+    title: 'Genre List',
+    genreList: allgenre
+  })
 });
 
 // 显示特定流派的详情页。

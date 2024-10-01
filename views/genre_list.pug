@@ -1,0 +1,14 @@
+extends layout 
+
+block content
+
+    h1= title 
+    
+    
+    if genreList.length
+        ul 
+            each val in genreList 
+                li 
+                    a(href = val.url)  #{val.name}
+    else 
+        p 暂无艺术风格分类                

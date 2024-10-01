@@ -15,9 +15,20 @@ exports.bookinstance_list = asyncHandler(async(req,res,next) =>{
 
 // 显示特定 BookInstance 的详情页
 exports.bookinstance_detail = asyncHandler(async (req, res, next) => {
-    res.send(`未实现：BookInstance 详情页面：${req.params.id}`);
+    bookinstance = await BookInstance.findById(req.params.id).populate('book').exec()
+    if (bookinstance === null ){
+      const err = new Error("Book copy not found")
+      err.status = 403
+
+      return next(err)
+    }
+
+    res.render("bookinstance_detail",{
+      title: "Book",
+      bookinstance: bookinstance
+    })
+
   });
-  
   // 由 GET 显示创建 BookInstance 的表单
   exports.bookinstance_create_get = asyncHandler(async (req, res, next) => {
     res.send("未实现：BookInstance 创建 GET");

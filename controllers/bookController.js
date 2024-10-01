@@ -44,7 +44,25 @@ exports.book_list = asyncHandler(async (req, res, next) => {
 
 // 显示特定图书的详情页面。
 exports.book_detail = asyncHandler(async (req, res, next) => {
-  res.send(`未实现：图书详情页面：${req.params.id}`);
+  const [book,bookInstances] = await Promise.all([
+    Book.findById(req.params.id).populate('author').populate('genre').exec(),
+    BookInstance.find({book:req.params.id}).exec()
+  ])
+
+  if (book === null){
+
+    const err = new Error("Book not found")
+
+    err.status = 404
+
+    return next(err)
+  }
+
+  res.render('book_detail',{
+    title: book.title,
+    book: book,
+    book_instances: bookInstances
+  })
 });
 
 // 通过 GET 显示创建图书。
